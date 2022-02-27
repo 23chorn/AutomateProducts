@@ -132,15 +132,43 @@ while True:
             return instruments
             
         
-        instruments = ""
-        
-        #This section replaces instruments with n number
+        # instruments = ""
+
+        # This section replaces instruments with n number
+        # if which_env == 'QA':
+        #     instrument_src(list_market_segment)
+        # elif which_env == 'STG':
+        #     instrument_src(list_market_segment)
+        # elif which_env == 'LT':
+        #     instrument_src(list_market_segment)
+
         if which_env == 'QA':
-            instrument_src(list_market_segment)
+            if list_market_segment == 'HG' :
+                instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
+            elif list_market_segment == 'HY':
+                instruments = open(f'instruments\\QA\\ALLHY.csv', 'r')
+            elif list_market_segment == 'EM':
+                instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
+            elif list_market_segment == 'AG':
+                instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
         elif which_env == 'STG':
-            instrument_src(list_market_segment)
+            if list_market_segment == 'HG' :
+                instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
+            elif list_market_segment == 'HY':
+                instruments = open(f'instruments\\QA\\ALLHY.csv', 'r')
+            elif list_market_segment == 'EM':
+                instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
+            elif list_market_segment == 'AG':
+                instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
         elif which_env == 'LT':
-            instrument_src(list_market_segment)
+            if list_market_segment == 'HG' :
+                instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
+            elif list_market_segment == 'HY':
+                instruments = open(f'instruments\\QA\\ALLHY.csv', 'r')
+            elif list_market_segment == 'EM':
+                instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
+            elif list_market_segment == 'AG':
+                instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
 
         csv_reader = csv.reader(instruments)
 
