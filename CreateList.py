@@ -6,16 +6,18 @@ import csv
 import random
 import PySimpleGUI as sg
 
-def create_new_list_file(num_in_list, market_segment, side):
+def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
     src_dir = os.getcwd()
-
-    if which_env == 'QA':
-        dest_dir = src_dir + f"\\lists\\QA"
-    elif which_env == 'STG':
-        dest_dir = src_dir + f"\\lists\\STG"
-    elif which_env == 'LT':
-        dest_dir = src_dir + f"\\lists\\LT"
+    if cust_dest == '':
+        if which_env == 'QA':
+            dest_dir = src_dir + f"\\lists\\QA"
+        elif which_env == 'STG':
+            dest_dir = src_dir + f"\\lists\\STG"
+        elif which_env == 'LT':
+            dest_dir = src_dir + f"\\lists\\LT"
+    else:
+        dest_dir = cust_dest
 
     src_file = os.path.join(src_dir, 'template.xml')
     shutil.copy(src_file, dest_dir)
@@ -24,6 +26,7 @@ def create_new_list_file(num_in_list, market_segment, side):
     new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}.xml')
 
     os.rename(dest_file, new_dest_file_name)
+    #attempt to increment file name if same as existing
     # if os.path.exists(new_dest_file_name) == False:
     #     os.rename(dest_file, new_dest_file_name)
     # else:
@@ -39,6 +42,7 @@ layout = [  [sg.Text('Create a new suffix list template. Enter a value into each
             [sg.Text('How many items in the list?'), sg.InputText('10', key='-NUMBER-')],
             [sg.Text('Choose the market segment'), sg.Combo(['HG', 'HY', 'EM', 'AG'],default_value='HG', key='-MS-')],
             [sg.Text('Choose the side of the list'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-')],
+            [sg.Text("Choose an output folder: "), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-")],
             [sg.Text(size=(60), key='-OUTPUT-')],
             [sg.Button('Create'), sg.Button('Exit')]
             ]
@@ -55,8 +59,9 @@ while True:
         num_in_list = values['-NUMBER-']
         list_market_segment = values['-MS-']
         buy_or_sell = values['-SIDE-']
+        user_dest = values['-DEST-']
 
-        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell) #creates new file with number of items and market segment for list
+        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, user_dest) #creates new file with number of items and market segment for list
 
         #This section replaces the overall list count value with user input of number of list items
         read_template = open(f'{file_name}', 'r')
@@ -131,7 +136,6 @@ while True:
                 instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
             return instruments
             
-        
         # instruments = ""
 
         # This section replaces instruments with n number
