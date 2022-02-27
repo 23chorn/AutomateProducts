@@ -25,13 +25,18 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     dest_file = os.path.join(dest_dir, 'template.xml')
     new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}.xml')
 
-    os.rename(dest_file, new_dest_file_name)
+    # os.rename(dest_file, new_dest_file_name)
     #attempt to increment file name if same as existing
-    # if os.path.exists(new_dest_file_name) == False:
-    #     os.rename(dest_file, new_dest_file_name)
-    # else:
-    #     while :
-    #     increment_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}.xml')
+    while True:
+        if os.path.exists(new_dest_file_name) == False:
+            os.rename(dest_file, new_dest_file_name)
+            break
+        else:
+            for i in range(2, 1000):
+                new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}_v{i}.xml')
+                if os.path.exists(new_dest_file_name) == False:
+                    break
+
 
     return new_dest_file_name
 
