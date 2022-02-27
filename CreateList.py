@@ -19,7 +19,7 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     else:
         dest_dir = cust_dest
 
-    src_file = os.path.join(src_dir, 'template.xml')
+    src_file = os.path.join(src_dir, 'templates\\template.xml')
     shutil.copy(src_file, dest_dir)
 
     dest_file = os.path.join(dest_dir, 'template.xml')
@@ -40,16 +40,16 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
 
     return new_dest_file_name
 
-sg.theme('DarkAmber')
+sg.theme('DarkBlue3')
 
-layout = [  [sg.Text('Create a new suffix list template. Enter a value into each field below.', size=(60,1), text_color='white')],
-            [sg.Text('Choose the environment'), sg.Combo(['QA', 'LT', 'STG'],default_value='QA',key='-ENV-')],
-            [sg.Text('How many items in the list?'), sg.InputText('10', key='-NUMBER-')],
-            [sg.Text('Choose the market segment'), sg.Combo(['HG', 'HY', 'EM', 'AG'],default_value='HG', key='-MS-')],
-            [sg.Text('Choose the side of the list'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-')],
-            [sg.Text("Choose an output folder: "), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-")],
+layout = [  [sg.Text('Create a new suffix list template. Enter a value into each field below.', size=(80,1), text_color='white', font='Arial')],
+            [sg.Text('Choose the environment', font='Arial'), sg.Combo(['QA', 'LT', 'STG'],default_value='QA',key='-ENV-', font='Arial')],
+            [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', font='Arial')],
+            [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG'],default_value='HG', key='-MS-', font='Arial')],
+            [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
+            [sg.Text("Choose an output folder: ", font='Arial'), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
             [sg.Text(size=(60), key='-OUTPUT-')],
-            [sg.Button('Create'), sg.Button('Exit')]
+            [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')]
             ]
 
 window = sg.Window('Create list templates', layout)
@@ -96,7 +96,7 @@ while True:
         write_template1.close()
 
         #This section creates an instrument group for each instrument in the list
-        read_group_template = open('group_template.txt', 'r')
+        read_group_template = open('templates\\group_template.txt', 'r')
 
         group = ""
         for line in read_group_template:
@@ -111,7 +111,7 @@ while True:
         append_groups_file.close()
 
         #This section appends tail of file to new list xml
-        read_end_template = open('end_template.txt', 'r')
+        read_end_template = open('templates\\end_template.txt', 'r')
         append_end_file = open(f'{file_name}', 'a+')
 
         append_end_file.write(read_end_template.read())
