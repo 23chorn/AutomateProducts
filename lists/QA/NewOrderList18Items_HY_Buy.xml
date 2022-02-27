@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<message name="NewOrderList" msgType="E" isRequiredOnly="false" beginString="FIX.4.4">
+    <body>
+        <field name="ListID" id="66">@FIX44-ListID-:increment</field>
+        <field name="BidType" id="394">2</field>
+        <field name="TotNoOrders" id="68">18</field>
+        <groups name="NoOrders" id="73" count="18">
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">1</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="1">
+                        <group>
+                            <field name="PartyID" id="448">@Aggressor_Trader_PartyID</field>
+                            <field name="PartyIDSource" id="447">C</field>
+                            <field name="PartyRole" id="452">11</field>
+                            <groups name="NoPartySubIDs" id="802" count="0"/>
+                        </group>
+                    </groups>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A/]</field>
+                    <field name="SecurityID" id="48">61773FJC8</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">2</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">MA7505503</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">3</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">89388CFF0</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">4</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">MA6346597</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">5</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">30162RAC5</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">6</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">58958PHG2</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">7</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">61773E882</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">8</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">87238QAC7</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">9</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">20415QHP7</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">10</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">MAX166B4E</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">11</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">MA2977485</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">12</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">03009MBB1</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">13</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">45157PAV2</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">14</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">88241TLK4</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">15</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">455434BT6</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">16</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">05553LAA1</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">17</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">MA4482069</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">18</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">MA5362014</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">1</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
+        </groups>
+        <component name="Dealers">
+            <groups name="NoDealers" id="9690" count="0"/>
+        </component>
+        <component name="BloombergFields"/>
+    </body>
+</message>

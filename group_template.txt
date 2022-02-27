@@ -1,0 +1,29 @@
+            <group>
+                <field name="ClOrdID" id="11">@FIX44-List-ClOrdID-:increment</field>
+                <field name="ListSeqNo" id="67">0</field>
+                <component name="Parties">
+                    <groups name="NoPartyIDs" id="453" count="0"/>
+                </component>
+                <groups name="NoAllocs" id="78" count="0"/>
+                <groups name="NoTradingSessions" id="386" count="0"/>
+                <component name="Instrument">
+                    <field name="Symbol" id="55">[N/A]</field>
+                    <field name="SecurityID" id="48">dummy_instrument</field>
+                    <field name="SecurityIDSource" id="22">1</field>
+                    <groups name="NoSecurityAltID" id="454" count="0"/>
+                    <groups name="NoEvents" id="864" count="0"/>
+                </component>
+                <groups name="NoUnderlyings" id="711" count="0"/>
+                <field name="Side" id="54">0</field>
+                <component name="Stipulations">
+                    <groups name="NoStipulations" id="232" count="0"/>
+                </component>
+                <component name="OrderQtyData">
+                    <field name="OrderQty" id="38">1000000</field>
+                </component>
+                <component name="SpreadOrBenchmarkCurveData"/>
+                <component name="YieldData"/>
+                <component name="CommissionData"/>
+                <component name="PegInstructions"/>
+                <component name="DiscretionInstructions"/>
+            </group>
