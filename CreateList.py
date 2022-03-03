@@ -5,6 +5,7 @@ import sys
 import csv
 import random
 import PySimpleGUI as sg
+import math
 
 def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
