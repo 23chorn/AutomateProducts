@@ -5,6 +5,10 @@ import sys
 import csv
 import random
 import PySimpleGUI as sg
+import cProfile
+import pstats
+
+profile = cProfile.Profile()
 
 def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
@@ -26,7 +30,7 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}.xml')
 
     # os.rename(dest_file, new_dest_file_name)
-    #attempt to increment file name if same as existing
+    # Checks if name already exists, if it does name increments + 1 until available
     while True:
         if os.path.exists(new_dest_file_name) == False:
             os.rename(dest_file, new_dest_file_name)
@@ -39,6 +43,8 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
 
 
     return new_dest_file_name
+
+##### Set up on GUI for user to select parameters ######
 
 sg.theme('DarkBlue3')
 
@@ -58,7 +64,7 @@ while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
-    elif event == 'Create':
+    elif event == 'Create': # If user clicks Create button the 5 variables below are populated and used in rest of code
         window['-OUTPUT-'].update('You have created a ' + values['-NUMBER-'] + ' item ' + values['-MS-'] + ' ' + values['-SIDE-'] + ' list, for ' + values['-ENV-'] + '.', text_color='white')
         which_env = values['-ENV-']
         num_in_list = values['-NUMBER-']
@@ -66,51 +72,61 @@ while True:
         buy_or_sell = values['-SIDE-']
         user_dest = values['-DEST-']
 
-        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, user_dest) #creates new file with number of items and market segment for list
+        #creates new file with number of items and market segment for list
 
-        #This section replaces the overall list count value with user input of number of list items
+        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, user_dest) 
+
+        ##### This section replaces the overall list count value with user input of number of list items in the template #####
+
+        #Begins replacement of id 73 with correct number
         read_template = open(f'{file_name}', 'r')
 
-        new_list_count = ""
+        new_list_count = "" #string which contains basic template with id 73 replaced with number of orders in list
         for line in read_template:
             new_line = line.replace('<groups name="NoOrders" id="73" count="1">', f'<groups name="NoOrders" id="73" count="{num_in_list}">')
             new_list_count += new_line
 
-        read_template.close()
+        read_template.close() #Closes initial version of template
 
+        #Writes new version of file with id 73 filled correctly
         write_template = open(f"{file_name}", 'w')
         write_template.write(new_list_count)
         write_template.close()
 
+        #Second stage - replaces id 68 with number of orders in list
         read_template1 = open(f'{file_name}', 'r')
 
-        new_list_count1 = ""
+        new_list_count1 = "" #string which contains basic template with id 68 replaced with number of orders in list
         for line in read_template1:
             new_line1 = line.replace('<field name="TotNoOrders" id="68">1</field>', f'<field name="TotNoOrders" id="68">{num_in_list}</field>')
             new_list_count1 += new_line1
 
-        read_template1.close()
+        read_template1.close() #Closes second version of template
 
+        #Writes new version of file with id 68 and id 73 filled correctly with no. orders in list
         write_template1 = open(f"{file_name}", 'w')
         write_template1.write(new_list_count1)
         write_template1.close()
 
-        #This section creates an instrument group for each instrument in the list
+        ##### This section creates an instrument group for each instrument in the list #####
+
+        #Opens the instrument group template as the base
         read_group_template = open('templates\\group_template.txt', 'r')
 
-        group = ""
+        group = "" # contents of template stored in this string
         for line in read_group_template:
             group += line
 
-        group_newline = f'{group}\n'
-        multiple_groups = group_newline*(int(num_in_list)-1)
+        group_newline = f'{group}\n' # adds a new line to separate each instrument group correctly
+        multiple_groups = group_newline*(int(num_in_list)-1) # Create correct number of instrument groups based on no. orders in list
         read_group_template.close()
 
         append_groups_file = open(f'{file_name}', 'a+')
-        append_groups_file.write(multiple_groups)
+        append_groups_file.write(multiple_groups) # add N instrument group sections to the template with id 68 and id 73 filled
         append_groups_file.close()
 
-        #This section appends tail of file to new list xml
+        ##### This section appends tail of file to new list xml #####
+
         read_end_template = open('templates\\end_template.txt', 'r')
         append_end_file = open(f'{file_name}', 'a+')
 
@@ -119,7 +135,9 @@ while True:
         read_end_template.close()
         append_end_file.close()
 
-        #This section replaces the list seq no. to increment for each order in list
+        ##### This section replaces the list seq no. to increment for each order in list #####
+
+        # Increments each subsequent id 67 with number up to total size of list to comply with correct numbering of items in list
         for i in range(1, int(num_in_list)):
             for line in fileinput.input(file_name, inplace=1):
                 if '<field name="ListSeqNo" id="67">0</field>' in line:
@@ -130,16 +148,17 @@ while True:
 
                 sys.stdout.write(line)
 
-        def instrument_src(mktseg):
-            if mktseg == 'HG':
-                instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-            elif mktseg == 'HY':
-                instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-            elif mktseg == 'EM':
-                instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-            elif mktseg == 'AG':
-                instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-            return instruments
+        ### Testing putting retrieving instruments in function - NOT FINISHED
+        # def instrument_src(mktseg):
+        #     if mktseg == 'HG':
+        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
+        #     elif mktseg == 'HY':
+        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
+        #     elif mktseg == 'EM':
+        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
+        #     elif mktseg == 'AG':
+        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
+        #     return instruments
             
         # instruments = ""
 
@@ -150,6 +169,9 @@ while True:
         #     instrument_src(list_market_segment)
         # elif which_env == 'LT':
         #     instrument_src(list_market_segment)
+        
+        ##### This section chooses which instrument file to look at based on environment selected by user and uses it as the source for filling each insrument
+        # group with a random CUSIP #####
 
         if which_env == 'QA':
             if list_market_segment == 'HG' :
@@ -238,5 +260,6 @@ while True:
                     pass
 
                 sys.stdout.write(line)
+
 
 window.close()
