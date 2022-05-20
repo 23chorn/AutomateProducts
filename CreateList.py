@@ -1,3 +1,4 @@
+from audioop import add
 import os
 import shutil
 import fileinput
@@ -5,7 +6,6 @@ import sys
 import csv
 import random
 import PySimpleGUI as sg
-import time
 
 
 def create_new_list_file(num_in_list, market_segment, side, cust_dest):
@@ -51,6 +51,7 @@ layout = [  [sg.Text('Create a new suffix list template. Enter a value into each
             [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', font='Arial')],
             [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'EU'],default_value='HG', key='-MS-', font='Arial')],
             [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
+            [sg.Text('Add random limits for items?', font='Arial'), sg.Combo(['Yes', 'No'],default_value='No', key='-LIMIT-', font='Arial')],
             [sg.Text("Choose an output folder: ", font='Arial'), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
             [sg.Text(size=(60), key='-OUTPUT-')],
             [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')]
@@ -68,6 +69,7 @@ while True:
         num_in_list = values['-NUMBER-']
         list_market_segment = values['-MS-']
         buy_or_sell = values['-SIDE-']
+        add_limits = values['-LIMIT-']
         user_dest = values['-DEST-']
 
         #creates new file with number of items and market segment for list
@@ -109,7 +111,10 @@ while True:
         ##### This section creates an instrument group for each instrument in the list #####
 
         #Opens the instrument group template as the base
-        read_group_template = open('templates\\group_template.txt', 'r')
+        if add_limits == 'No':
+            read_group_template = open('templates\\group_template.txt', 'r')
+        else:
+            read_group_template = open('templates\\groupwithlimit_template.txt', 'r')
 
         group = "" # contents of template stored in this string
         for line in read_group_template:
@@ -136,6 +141,25 @@ while True:
         ##### This section replaces the list seq no. to increment for each order in list #####
 
         # Increments each subsequent id 67 with number up to total size of list to comply with correct numbering of items in list
+
+        ################# Trying to put action in a function for reuse -- NOT FINISHED        
+        # def write_to_template(name_of_file, line_to_replace):
+        #     sequence_iter = 1
+        #     while sequence_iter < int(num_in_list):
+        #         for line in fileinput.input(name_of_file, inplace=1):
+        #             if line_to_replace in line:
+        #                 for char in line_to_replace:
+        #                     if char == '0':
+        #                         char = char.replace('0', str(sequence_iter))
+        #                 sequence_iter += 1
+        #         else:
+        #             pass
+
+        #         sys.stdout.write(line)
+
+        # listseqno_line1 = '<field name="ListSeqNo" id="67">0</field>'
+        # write_to_template(file_name, listseqno_line1)
+        
         seq_iter = 1
         while seq_iter < int(num_in_list):
             for line in fileinput.input(file_name, inplace=1):
@@ -147,68 +171,18 @@ while True:
 
                 sys.stdout.write(line)
 
-        ### Testing putting retrieving instruments in function - NOT FINISHED
-        # def instrument_src(mktseg):
-        #     if mktseg == 'HG':
-        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-        #     elif mktseg == 'HY':
-        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-        #     elif mktseg == 'EM':
-        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-        #     elif mktseg == 'AG':
-        #         instruments = open(f'instruments\\QA\\ALL{mktseg}.csv', 'r')
-        #     return instruments
-            
-        # instruments = ""
-
-        # This section replaces instruments with n number
-        # if which_env == 'QA':
-        #     instrument_src(list_market_segment)
-        # elif which_env == 'STG':
-        #     instrument_src(list_market_segment)
-        # elif which_env == 'LT':
-        #     instrument_src(list_market_segment)
-        
-        ##### This section chooses which instrument file to look at based on environment selected by user and uses it as the source for filling each insrument
+        ##### This section chooses which instrument file to look at based on environment/mktsegment selected by user and uses it as the source for filling each insrument
         # group with a random CUSIP #####
-        if which_env == 'QA':
-            if list_market_segment == 'HG' :
-                instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
-            elif list_market_segment == 'HY':
-                instruments = open(f'instruments\\QA\\ALLHY.csv', 'r')
-            elif list_market_segment == 'EM':
-                instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
-            elif list_market_segment == 'AG':
-                instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
-            elif list_market_segment == 'EU':
-                instruments = open(f'instruments\\QA\\ALLEU.csv', 'r')
-        elif which_env == 'STG':
-            if list_market_segment == 'HG' :
-                instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
-            elif list_market_segment == 'HY':
-                instruments = open(f'instruments\\QA\\ALLHY.csv', 'r')
-            elif list_market_segment == 'EM':
-                instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
-            elif list_market_segment == 'AG':
-                instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
-        elif which_env == 'LT':
-            if list_market_segment == 'HG' :
-                instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
-            elif list_market_segment == 'HY':
-                instruments = open(f'instruments\\QA\\ALLHY.csv', 'r')
-            elif list_market_segment == 'EM':
-                instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
-            elif list_market_segment == 'AG':
-                instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
+        
+        def instrument_src(environment, mktseg):
+            instruments = open(f'instruments\\{environment}\\ALL{mktseg}.csv', 'r')
+            return instruments
 
-        csv_reader = csv.reader(instruments)
-        lists_from_csv = list(csv_reader)
+        user_mktseg = instrument_src(which_env, list_market_segment)
+        csv_reader = csv.reader(user_mktseg)
+
         # adds all cusips from instruments csv into a list
-        # lists_from_csv = [row for row in csv_reader]
-
-        ## improved using list comprehension
-        # for row in csv_reader:
-        #     lists_from_csv.append(row)
+        lists_from_csv = list(csv_reader)
 
         #Generate random set of unique indexes to pick unique instruments from csv
         rand_indexes = []
@@ -261,5 +235,27 @@ while True:
                     pass
 
                 sys.stdout.write(line)
+
+
+        if add_limits == 'Yes':
+            rand_limits = []
+            while len(rand_limits) < int(num_in_list):
+                rand_limit = round(random.uniform(0, 200), 3)
+                rand_limits.append(rand_limit)
+            
+            print(rand_limits)
+
+            limit_iter = 1
+            while limit_iter < int(num_in_list) :
+                for line in fileinput.input(file_name, inplace=1):
+                    if '<field name="Price" id="44">0</field>' in line:
+                        line = line.replace('<field name="Price" id="44">0</field>', f'<field name="Price" id="44">{rand_limits[limit_iter]}</field>')
+                        limit_iter += 1
+                    else:
+                        pass
+
+                    sys.stdout.write(line)
+        else:
+            pass
 
 window.close()
