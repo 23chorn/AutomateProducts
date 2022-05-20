@@ -5,10 +5,8 @@ import sys
 import csv
 import random
 import PySimpleGUI as sg
-import cProfile
-import pstats
+import time
 
-profile = cProfile.Profile()
 
 def create_new_list_file(num_in_list, market_segment, side, cust_dest):
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
@@ -51,7 +49,7 @@ sg.theme('DarkBlue3')
 layout = [  [sg.Text('Create a new suffix list template. Enter a value into each field below.', size=(80,1), text_color='white', font='Arial')],
             [sg.Text('Choose the environment', font='Arial'), sg.Combo(['QA', 'LT', 'STG'],default_value='QA',key='-ENV-', font='Arial')],
             [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', font='Arial')],
-            [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG'],default_value='HG', key='-MS-', font='Arial')],
+            [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'EU'],default_value='HG', key='-MS-', font='Arial')],
             [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
             [sg.Text("Choose an output folder: ", font='Arial'), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
             [sg.Text(size=(60), key='-OUTPUT-')],
@@ -138,11 +136,12 @@ while True:
         ##### This section replaces the list seq no. to increment for each order in list #####
 
         # Increments each subsequent id 67 with number up to total size of list to comply with correct numbering of items in list
-        for i in range(1, int(num_in_list)):
+        seq_iter = 1
+        while seq_iter < int(num_in_list):
             for line in fileinput.input(file_name, inplace=1):
                 if '<field name="ListSeqNo" id="67">0</field>' in line:
-                    line = line.replace('<field name="ListSeqNo" id="67">0</field>', f'<field name="ListSeqNo" id="67">{i}</field>')
-                    i += 1
+                    line = line.replace('<field name="ListSeqNo" id="67">0</field>', f'<field name="ListSeqNo" id="67">{seq_iter}</field>')
+                    seq_iter += 1
                 else:
                     pass
 
@@ -172,7 +171,6 @@ while True:
         
         ##### This section chooses which instrument file to look at based on environment selected by user and uses it as the source for filling each insrument
         # group with a random CUSIP #####
-
         if which_env == 'QA':
             if list_market_segment == 'HG' :
                 instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
@@ -182,6 +180,8 @@ while True:
                 instruments = open(f'instruments\\QA\\ALLEM.csv', 'r')
             elif list_market_segment == 'AG':
                 instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
+            elif list_market_segment == 'EU':
+                instruments = open(f'instruments\\QA\\ALLEU.csv', 'r')
         elif which_env == 'STG':
             if list_market_segment == 'HG' :
                 instruments = open(f'instruments\\QA\\ALLHG.csv', 'r')
@@ -202,10 +202,13 @@ while True:
                 instruments = open(f'instruments\\QA\\ALLAG.csv', 'r')
 
         csv_reader = csv.reader(instruments)
+        lists_from_csv = list(csv_reader)
+        # adds all cusips from instruments csv into a list
+        # lists_from_csv = [row for row in csv_reader]
 
-        lists_from_csv = []
-        for row in csv_reader:
-            lists_from_csv.append(row)
+        ## improved using list comprehension
+        # for row in csv_reader:
+        #     lists_from_csv.append(row)
 
         #Generate random set of unique indexes to pick unique instruments from csv
         rand_indexes = []
@@ -217,22 +220,20 @@ while True:
                 pass
 
         #Create list of random cusips from csv file
-        cusips = []
-        for i in rand_indexes:
-            cusips.append(lists_from_csv[i].pop())
-            i += 1
+        cusips = [lists_from_csv[i].pop() for i in rand_indexes]
 
         #Replaces dummy instrument with random cusips from list of 300
-        for i in range(1, int(num_in_list)):
+        instrument_iter = 1
+        while instrument_iter < int(num_in_list):
             for line in fileinput.input(file_name, inplace=1):
                 if '<field name="SecurityID" id="48">dummy_instrument</field>' in line:
-                    line = line.replace('<field name="SecurityID" id="48">dummy_instrument</field>', f'<field name="SecurityID" id="48">{cusips[i]}</field>')
-                    i += 1
+                    line = line.replace('<field name="SecurityID" id="48">dummy_instrument</field>', f'<field name="SecurityID" id="48">{cusips[instrument_iter]}</field>')
+                    instrument_iter += 1
                 else:
                     pass
 
                 sys.stdout.write(line)
-
+        
         #Creates list of buy/sell or both sides
         side = []
 
@@ -250,16 +251,15 @@ while True:
                 side.append(n)
                 i +=1
 
-
-        for i in range(0, int(num_in_list)):
+        side_iter = 0
+        while side_iter < int(num_in_list):
             for line in fileinput.input(file_name, inplace=1):
                 if '<field name="Side" id="54">0</field>' in line:
-                    line = line.replace('<field name="Side" id="54">0</field>', f'<field name="Side" id="54">{side[i]}</field>')
-                    i += 1
+                    line = line.replace('<field name="Side" id="54">0</field>', f'<field name="Side" id="54">{side[side_iter]}</field>')
+                    side_iter += 1
                 else:
                     pass
 
                 sys.stdout.write(line)
-
 
 window.close()
