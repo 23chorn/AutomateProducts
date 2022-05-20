@@ -11,9 +11,12 @@ while len(rand_indexes) < (int(num_in_list) + 1):
     else:
         pass
 
-print(rand_indexes)
+rand_limits = []
+while len(rand_limits) < num_in_list + 1:
+    rand_limit = round(random.uniform(0, 200), 3)
+    rand_limits.append(rand_limit)
 
-cusips = [i for i in rand_indexes]
+print(rand_limits)
 
 #Create list of random cusips from csv file
 # # cusips = [i for i in rand_indexes]
