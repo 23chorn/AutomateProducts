@@ -1,10 +1,8 @@
 import os
 
-
-
 file_names = os.listdir('C:\\Users\\chorn\\Desktop\\SufFIXApplication\\SufFIX3.0.0\\suffixData\\templates\\FIX.4.4\\Script Generated Lists')
 
-prefix = 'KAUAI Script Lists='
+prefix = 'FIXListCreator='
 new_faves = ""
 
 for file in file_names:

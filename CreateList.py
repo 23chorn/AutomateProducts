@@ -6,9 +6,10 @@ import sys
 import csv
 import random
 import PySimpleGUI as sg
+import math
 
 
-def create_new_list_file(num_in_list, market_segment, side, cust_dest):
+def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_dest):
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
     src_dir = os.getcwd()
     if cust_dest == '':
@@ -20,12 +21,17 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
             dest_dir = src_dir + f"\\lists\\LT"
     else:
         dest_dir = cust_dest
+    
+    if with_limits == 'Yes':
+        with_limits = '_Limits'
+    else:
+        with_limits = ''
 
     src_file = os.path.join(src_dir, 'templates\\template.xml')
     shutil.copy(src_file, dest_dir)
 
     dest_file = os.path.join(dest_dir, 'template.xml')
-    new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}.xml')
+    new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}{with_limits}.xml')
 
     # os.rename(dest_file, new_dest_file_name)
     # Checks if name already exists, if it does name increments + 1 until available
@@ -35,7 +41,7 @@ def create_new_list_file(num_in_list, market_segment, side, cust_dest):
             break
         else:
             for i in range(2, 1000):
-                new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}_v{i}.xml')
+                new_dest_file_name = os.path.join(dest_dir, f'NewOrderList{num_in_list}Items_{market_segment}_{side}{with_limits}_v{i}.xml')
                 if os.path.exists(new_dest_file_name) == False:
                     break
 
@@ -51,13 +57,13 @@ layout = [  [sg.Text('Create a new suffix list template. Enter a value into each
             [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', font='Arial')],
             [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'EU'],default_value='HG', key='-MS-', font='Arial')],
             [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
-            [sg.Text('Add random limits for items?', font='Arial'), sg.Combo(['Yes', 'No'],default_value='No', key='-LIMIT-', font='Arial')],
+            [sg.Text('Add random limits for orders?', font='Arial'), sg.Combo(['Yes', 'No'],default_value='No', key='-LIMIT-', font='Arial')],
             [sg.Text("Choose an output folder: ", font='Arial'), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
             [sg.Text(size=(60), key='-OUTPUT-')],
             [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')]
             ]
 
-window = sg.Window('Create list templates', layout)
+window = sg.Window('FIX List Creator', layout)
 
 while True:
     event, values = window.read()
@@ -74,7 +80,7 @@ while True:
 
         #creates new file with number of items and market segment for list
 
-        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, user_dest) 
+        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, add_limits, user_dest) 
 
         ##### This section replaces the overall list count value with user input of number of list items in the template #####
 
@@ -237,13 +243,46 @@ while True:
                 sys.stdout.write(line)
 
 
+        ##### attempt to allow user to specify how many orders have limits -- NOT FINISHED
+        # if add_limits != 'No':
+        #     if add_limits == '100%':
+        #         list_lim = int(num_in_list)
+        #     elif add_limits == '75%':
+        #         list_lim = 0.75 * int(num_in_list)
+        #     elif add_limits == '50%':
+        #         list_lim = 0.5 * int(num_in_list)
+        #     elif add_limits == '25%':
+        #         list_lim = 0.25 * int(num_in_list)
+            
+        #     whole_list_lim = int(list_lim)
+
+        #     rand_limits = []
+        #     while len(rand_limits) < whole_list_lim:
+        #         rand_limit = round(random.uniform(0, 200), 3)
+        #         rand_limits.append(rand_limit)
+            
+        #     print(rand_limits)
+
+        #     limit_iter = 0
+        #     while limit_iter < len(rand_limits)-1:
+        #         for line in fileinput.input(file_name, inplace=1):
+        #             if '<field name="Price" id="44">0</field>' in line:
+        #                 line = line.replace('<field name="Price" id="44">0</field>', f'<field name="Price" id="44">{rand_limits[limit_iter]}</field>')
+        #                 limit_iter += 1
+        #             else:
+        #                 pass
+
+        #             sys.stdout.write(line)
+        # else:
+        #     pass
+
+        ##### This section adds random limits between 0-200 with decimal places for order
+
         if add_limits == 'Yes':
             rand_limits = []
             while len(rand_limits) < int(num_in_list):
                 rand_limit = round(random.uniform(0, 200), 3)
                 rand_limits.append(rand_limit)
-            
-            print(rand_limits)
 
             limit_iter = 1
             while limit_iter < int(num_in_list) :
