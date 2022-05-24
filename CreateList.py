@@ -9,7 +9,7 @@ from turtle import right
 import PySimpleGUI as sg
 
 
-def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_dest):
+def create_new_list_file(num_in_list, market_segment, side, file_size, with_limits, cust_dest):
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
     src_dir = os.getcwd()
     if cust_dest == "":
@@ -27,13 +27,14 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
     else:
         with_limits = ""
 
+
     src_file = os.path.join(src_dir, "templates\\template.xml")
     shutil.copy(src_file, dest_dir)
 
     dest_file = os.path.join(dest_dir, "template.xml")
     new_dest_file_name = os.path.join(
         dest_dir,
-        f"NewOrderList{num_in_list}Items_{market_segment}_{side}{with_limits}.xml",
+        f"List_Orders{num_in_list}_Size{file_size}_{market_segment}_{side}{with_limits}.xml",
     )
 
     # os.rename(dest_file, new_dest_file_name)
@@ -46,7 +47,7 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
             for i in range(2, 1000):
                 new_dest_file_name = os.path.join(
                     dest_dir,
-                    f"NewOrderList{num_in_list}Items_{market_segment}_{side}{with_limits}_v{i}.xml",
+                    f"List_Orders{num_in_list}_Size{file_size}_{market_segment}_{side}{with_limits}_v{i}.xml",
                 )
                 if os.path.exists(new_dest_file_name) == False:
                     break
@@ -56,15 +57,17 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
 
 ##### Set up on GUI for user to select parameters ######
 
-sg.theme("DarkTeal12")
+# sg.theme("DarkTeal12")
+sg.ChangeLookAndFeel('BlueMono')
+font = ('Roboto, 12')
 
 layout1 = [
     [
-        sg.Text("Choose the environment:", font="Arial"),
-        sg.Combo(["QA", "STG"], default_value="QA", key="-ENV-", font="Arial"),
+        sg.Text("Choose the environment:", font=font),
+        sg.Combo(["QA", "STG"], default_value="QA", key="-ENV-", font=font),
     ],
     [
-        sg.Text("Choose the market segment:", font="Arial"),
+        sg.Text("Choose the market segment:", font=font),
         sg.Combo(
             [
                 "HG",
@@ -82,93 +85,101 @@ layout1 = [
                 "EMLocal",
                 "EMLocalAsia",
                 "CNY",
-                "Custom",
             ],
             default_value="HG",
             key="-MS-",
-            size=(10),
-            font="Arial",
+            size=(12),
+            font=font,
         ),
     ],
     [
-        sg.Text("How many items in the list?", font="Arial"),
-        sg.InputText("10", key="-NUMBER-", size=(6), font="Arial"),
+        sg.Text("How many items in the list?", font=font),
+        sg.InputText("10", key="-NUMBER-", size=(6), font=font),
     ],
     [
-        sg.Text("Choose the side of the list:", font="Arial"),
+        sg.Text("Choose the side of the list:", font=font),
         sg.Combo(
-            ["Buy", "Sell", "Both"], default_value="Buy", key="-SIDE-", font="Arial"
+            ["Buy", "Sell", "Both"], default_value="Buy", key="-SIDE-", font=font
         ),
     ],
     [
-        sg.Text("Add random limits for orders?", font="Arial"),
-        sg.Combo(["Yes", "No"], default_value="No", key="-LIMIT-", font="Arial"),
+        sg.Text("Size of the orders? (000s)", font=font),
+        sg.Combo(
+            ["1", "100", "1000", "5000", "10000", "Random"], default_value="1000", key="-SIZE-", font=font
+        )
+    ],
+    [
+        sg.Text("Add random limits for orders?", font=font),
+        sg.Combo(["Yes", "No"], default_value="No", key="-LIMIT-", font=font),
     ],
     [
         sg.Text(
-            "Choose an output folder (Default = FIXListCreator/lists):", font="Arial"
+            "Choose an output folder (Default = FIXListCreator/lists):", font=font
         )
     ],
-    [sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font="Arial")],
-    [sg.Text(size=(60), key="-OUTPUT-")],
+    [sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font=font)],
+    [sg.Text(size=(80), key="-OUTPUT-")],
 ]
 
 layout2 = [
-    [sg.Text("Custom Instrument Source (.csv):", font="Arial")],
-    [sg.InputText(), sg.FileBrowse(key="-SOURCECUST-", font="Arial")],
+    [sg.Text("Custom Instrument Source (.csv):", font=font)],
+    [sg.InputText(), sg.FileBrowse(key="-SOURCECUST-", font=font)],
     [
-        sg.Text("How many items in the list?", font="Arial"),
-        sg.InputText("10", key="-NUMBERCUST-", size=(6), font="Arial"),
+        sg.Text("How many items in the list?", font=font),
+        sg.InputText("10", key="-NUMBERCUST-", size=(6), font=font),
     ],
     [
-        sg.Text("Choose the side of the list", font="Arial"),
+        sg.Text("Choose the side of the list", font=font),
         sg.Combo(
-            ["Buy", "Sell", "Both"], default_value="Buy", key="-SIDECUST-", font="Arial"
+            ["Buy", "Sell", "Both"], default_value="Buy", key="-SIDECUST-", font=font
         ),
     ],
     [
-        sg.Text("Add random limits for orders?", font="Arial"),
-        sg.Combo(["Yes", "No"], default_value="No", key="-LIMITCUST-", font="Arial"),
+        sg.Text("Size of the orders? (000s)", font=font),
+        sg.Combo(
+            ["1", "100", "1000", "5000", "10000", "Random"], default_value="1000", key="-SIZECUST-", font=font
+        )
+    ],
+    [
+        sg.Text("Add random limits for orders?", font=font),
+        sg.Combo(["Yes", "No"], default_value="No", key="-LIMITCUST-", font=font),
     ],
     [
         sg.Text(
-            "Choose an output folder (Default = FIXListCreator/lists):", font="Arial"
+            "Choose an output folder (Default = FIXListCreator/lists):", font=font
         )
     ],
-    [sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DESTCUST-", font="Arial")],
-    [sg.Text(size=(60), key="-OUTPUTCUST-")],
+    [sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DESTCUST-", font=font)],
+    [sg.Text(size=(80), key="-OUTPUTCUST-")],
 ]
 
 layout = [
     [
         sg.Text(
-            "Create a new suffix list template",
-            size=(80, 1),
-            text_color="white",
-            font="Arial",
+            "Create a FIX List Template",
+            size=(40, 1),
+            font="Roboto, 20",
             justification="center",
         ),
         sg.Push(),
-        sg.Button("Help", font="Arial"),
+        sg.Button("Help", font=font),
     ],
     [
         sg.Text(
             "First, choose the source of instruments:",
-            size=(80, 1),
-            text_color="white",
-            font="Arial",
+            font=font,
         )
     ],
-    [sg.Button("Default", font="Arial"), sg.Button("Custom", font="Arial")],
+    [sg.Button("Default", font="Arial"), sg.Button("Custom", font=font)],
     [
         sg.Column(layout1, key="-COLDefault-"),
         sg.Column(layout2, visible=False, key="-COLCustom-"),
     ],
     [
-        sg.Button("Create", font="Arial"),
-        sg.Button("Exit", font="Arial"),
+        sg.Button("Create", font=font),
+        sg.Button("Exit", font=font),
         sg.Push(),
-        sg.Text("v1.1", font="Arial, 8"),
+        sg.Text("v1.1", font='Roboto, 8'),
     ],
 ]
 
@@ -186,7 +197,7 @@ while True:
     elif event == "Help":
         sg.popup(
             "Default Instrument Source = Use list of all available CUSIPS from BL Database and picks a random selection on N based on user input\n\n\
-Custom Instrument Source = User can supply their own list of instruments as the source for the template. It must be a .csv file containing a single column with a header\
+Custom Instrument Source = User can supply their own list of instruments as the source for the template. It must be a .csv file containing a single column with a header \
 followed by a list of CUSIPS. You cannot select number of items as greater than number of CUSIPS in the .csv"
         )
     elif (
@@ -194,45 +205,52 @@ followed by a list of CUSIPS. You cannot select number of items as greater than 
     ):  # If user clicks Create button the 5 variables below are populated and used in rest of code
         if layout == "Default":
             window["-OUTPUT-"].update(
-                "You have created a "
+                "You have created: Orders = "
                 + values["-NUMBER-"]
-                + " item "
+                + ", Mkt Sgmt = "
                 + values["-MS-"]
-                + " "
+                + ", Size = "
+                + values["-SIZE-"]
+                + ", Limits = "
+                + values["-LIMIT-"]
+                + ", "
                 + values["-SIDE-"]
                 + " list, for "
                 + values["-ENV-"]
                 + ".",
-                text_color="white",
             )
             which_env = values["-ENV-"]
             num_in_list = values["-NUMBER-"]
             list_market_segment = values["-MS-"]
             buy_or_sell = values["-SIDE-"]
+            size = values["-SIZE-"]
             add_limits = values["-LIMIT-"]
             user_dest = values["-DEST-"]
             user_source = values["-SOURCECUST-"]
             file_name = create_new_list_file(
-                num_in_list, list_market_segment, buy_or_sell, add_limits, user_dest
+                num_in_list, list_market_segment, buy_or_sell, size, add_limits, user_dest
             )
         elif layout == "Custom":
             window["-OUTPUTCUST-"].update(
-                "You have created a "
+                "You have created: Orders = "
                 + values["-NUMBERCUST-"]
-                + " item "
-                + "Custom "
+                + ", Size = "
+                + values["-SIZECUST-"]
+                + ", Limits = "
+                + values["-LIMITCUST-"]
+                + ", "
                 + values["-SIDECUST-"]
-                + " list.",
-                text_color="white",
+                + " list, with Custom Instruments",
             )
             num_in_list = values["-NUMBERCUST-"]
             buy_or_sell = values["-SIDECUST-"]
+            size = values["-SIZECUST-"]
             add_limits = values["-LIMITCUST-"]
             user_dest = values["-DESTCUST-"]
             user_source = values["-SOURCECUST-"]
 
             file_name = create_new_list_file(
-                num_in_list, layout, buy_or_sell, add_limits, user_dest
+                num_in_list, layout, buy_or_sell, size, add_limits, user_dest
             )
 
         ##### This section replaces the overall list count value with user input of number of list items in the template #####
@@ -370,7 +388,7 @@ followed by a list of CUSIPS. You cannot select number of items as greater than 
 
                 sys.stdout.write(line)
 
-        # Creates list of buy/sell or both sides
+        ##### This section creates a list of buy/sell or a random mix of both sides and populates field with id=54 appropriately
         side = []
 
         if buy_or_sell == "Buy":
@@ -401,7 +419,51 @@ followed by a list of CUSIPS. You cannot select number of items as greater than 
 
                 sys.stdout.write(line)
 
-        ##### This section adds random limits between 0-200 with decimal places for order
+        ##### This section creates a list of sizes based on the user selection (specified or random) and populates field with id=38 appropriately
+        def fill_sizes(list_size):
+            size_iter = 0
+            while size_iter < int(num_in_list):
+                for line in fileinput.input(file_name, inplace=1):
+                    if '<field name="OrderQty" id="38">1000000</field>' in line:
+                        line = line.replace(
+                            '<field name="OrderQty" id="38">1000000</field>',
+                            f'<field name="OrderQty" id="38">{list_size[size_iter]}</field>',
+                        )
+                        size_iter += 1
+                    else:
+                        pass
+
+                    sys.stdout.write(line)
+
+
+        def createSizeArray(user_size):
+            order_sizes = []
+            order_sizes.append(user_size)
+            order_sizes *= int(num_in_list)
+            return order_sizes
+
+        if size == 'Random':
+            order_sizes = []
+            while len(order_sizes) < int(num_in_list):
+                rand_size = round(random.uniform(100, 1500))
+                order_sizes.append(rand_size)
+            fill_sizes(order_sizes)
+        elif size == '1':
+            order_sizes = createSizeArray(1000)
+            fill_sizes(order_sizes)
+        elif size == '100':
+            order_sizes = createSizeArray(100000)
+            fill_sizes(order_sizes)
+        elif size == '5000':
+            order_sizes = createSizeArray(5000000)
+            fill_sizes(order_sizes)
+        elif size == '10000':
+            order_sizes = createSizeArray(10000000)
+            fill_sizes(order_sizes)
+        else:
+            pass
+
+        ##### This section adds random limits between 0-100 with decimal places for order
 
         if add_limits == "Yes":
             rand_limits = []
