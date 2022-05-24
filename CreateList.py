@@ -5,8 +5,8 @@ import fileinput
 import sys
 import csv
 import random
+from turtle import right
 import PySimpleGUI as sg
-import math
 
 
 def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_dest):
@@ -17,8 +17,6 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
             dest_dir = src_dir + f"\\lists\\QA"
         elif which_env == 'STG':
             dest_dir = src_dir + f"\\lists\\STG"
-        elif which_env == 'LT':
-            dest_dir = src_dir + f"\\lists\\LT"
     else:
         dest_dir = cust_dest
     
@@ -53,14 +51,15 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
 sg.theme('DarkBlue3')
 
 layout = [  [sg.Text('Create a new suffix list template. Enter a value into each field below.', size=(80,1), text_color='white', font='Arial')],
-            [sg.Text('Choose the environment', font='Arial'), sg.Combo(['QA', 'LT', 'STG'],default_value='QA',key='-ENV-', font='Arial')],
+            [sg.Text('Choose the environment', font='Arial'), sg.Combo(['QA', 'STG'],default_value='QA',key='-ENV-', font='Arial')],
             [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', font='Arial')],
-            [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'EU'],default_value='HG', key='-MS-', font='Arial')],
+            [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'USPortfolio', 'EUPortfolio', 'LoanPortfolio', 'EUPrice', 'EUGov', 'EUHY', 'JPY', 'EUNonCore', 'EMLocal', 'EMLocalAsia', 'CNY'],default_value='HG', key='-MS-', font='Arial')],
             [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
             [sg.Text('Add random limits for orders?', font='Arial'), sg.Combo(['Yes', 'No'],default_value='No', key='-LIMIT-', font='Arial')],
             [sg.Text("Choose an output folder: ", font='Arial'), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
             [sg.Text(size=(60), key='-OUTPUT-')],
-            [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')]
+            [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')],
+            [sg.Push(), sg.Text("v1.0", font='Arial, 8')]
             ]
 
 window = sg.Window('FIX List Creator', layout)
@@ -181,7 +180,7 @@ while True:
         # group with a random CUSIP #####
         
         def instrument_src(environment, mktseg):
-            instruments = open(f'instruments\\{environment}\\ALL{mktseg}.csv', 'r')
+            instruments = open(f'instruments\\{environment}\\{mktseg}.csv', 'r')
             return instruments
 
         user_mktseg = instrument_src(which_env, list_market_segment)
@@ -281,7 +280,7 @@ while True:
         if add_limits == 'Yes':
             rand_limits = []
             while len(rand_limits) < int(num_in_list):
-                rand_limit = round(random.uniform(0, 200), 3)
+                rand_limit = round(random.uniform(0, 100), 3)
                 rand_limits.append(rand_limit)
 
             limit_iter = 1
