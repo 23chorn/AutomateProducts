@@ -13,7 +13,9 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
     """uses template to create new xml file with name relating to number of items in list + the market segment"""
     src_dir = os.getcwd()
     if cust_dest == '':
-        if which_env == 'QA':
+        if layout == 'Custom':
+            dest_dir = src_dir + f"\\lists\\Custom"
+        elif which_env == 'QA':
             dest_dir = src_dir + f"\\lists\\QA"
         elif which_env == 'STG':
             dest_dir = src_dir + f"\\lists\\STG"
@@ -50,36 +52,69 @@ def create_new_list_file(num_in_list, market_segment, side, with_limits, cust_de
 
 sg.theme('DarkBlue3')
 
-layout = [  [sg.Text('Create a new suffix list template. Enter a value into each field below.', size=(80,1), text_color='white', font='Arial')],
-            [sg.Text('Choose the environment', font='Arial'), sg.Combo(['QA', 'STG'],default_value='QA',key='-ENV-', font='Arial')],
-            [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', font='Arial')],
-            [sg.Text('Choose the market segment', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'USPortfolio', 'EUPortfolio', 'LoanPortfolio', 'EUPrice', 'EUGov', 'EUHY', 'JPY', 'EUNonCore', 'EMLocal', 'EMLocalAsia', 'CNY'],default_value='HG', key='-MS-', font='Arial')],
-            [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
+layout1 = [ [sg.Text('Choose the environment:', font='Arial'), sg.Combo(['QA', 'STG'],default_value='QA',key='-ENV-', font='Arial')],
+            [sg.Text('Choose the market segment:', font='Arial'), sg.Combo(['HG', 'HY', 'EM', 'AG', 'USPortfolio', 'EUPortfolio', 'LoanPortfolio', 'EUPrice', 'EUGov', 'EUHY', 'JPY', 'EUNonCore', 'EMLocal', 'EMLocalAsia', 'CNY', 'Custom'],default_value='HG', key='-MS-', size=(10), font='Arial')],
+            [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBER-', size=(6), font='Arial')],
+            [sg.Text('Choose the side of the list:', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDE-', font='Arial')],
             [sg.Text('Add random limits for orders?', font='Arial'), sg.Combo(['Yes', 'No'],default_value='No', key='-LIMIT-', font='Arial')],
-            [sg.Text("Choose an output folder: ", font='Arial'), sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
+            [sg.Text("Choose an output folder (Default = FIXListCreator/lists):", font='Arial')], 
+            [sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DEST-", font='Arial')],
             [sg.Text(size=(60), key='-OUTPUT-')],
-            [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')],
-            [sg.Push(), sg.Text("v1.0", font='Arial, 8')]
             ]
 
+layout2 = [ [sg.Text('Custom Instrument Source (.csv):', font='Arial')], 
+            [sg.InputText(), sg.FileBrowse(key="-SOURCECUST-", font='Arial')],
+            [sg.Text('How many items in the list?', font='Arial'), sg.InputText('10', key='-NUMBERCUST-', size=(6), font='Arial')],
+            [sg.Text('Choose the side of the list', font='Arial'), sg.Combo(['Buy', 'Sell', 'Both'],default_value='Buy', key='-SIDECUST-', font='Arial')],
+            [sg.Text('Add random limits for orders?', font='Arial'), sg.Combo(['Yes', 'No'],default_value='No', key='-LIMITCUST-', font='Arial')],
+            [sg.Text("Choose an output folder (Default = FIXListCreator/lists):", font='Arial')], 
+            [sg.Input(key="-IN2-"), sg.FolderBrowse(key="-DESTCUST-", font='Arial')],
+            [sg.Text(size=(60), key='-OUTPUTCUST-')],
+            ]
+
+layout = [[sg.Text('Create a new suffix list template', size=(80,1), text_color='white', font='Arial', justification='center')],
+          [sg.Text('First, choose the source of instruments:', size=(80,1), text_color='white', font='Arial')],
+          [sg.Button('Default'), sg.Button('Custom')],
+          [sg.Column(layout1, key='-COLDefault-'), sg.Column(layout2, visible=False, key='-COLCustom-')],
+          [sg.Button('Create', font='Arial'), sg.Button('Exit', font='Arial')],
+          [sg.Push(), sg.Text("v1.1", font='Arial, 8')]
+          ]
+
 window = sg.Window('FIX List Creator', layout)
+layout = 'Default'
 
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
+    elif event in 'DefaultCustom':
+        window[f'-COL{layout}-'].update(visible=False)
+        layout = event
+        window[f'-COL{layout}-'].update(visible=True)
     elif event == 'Create': # If user clicks Create button the 5 variables below are populated and used in rest of code
-        window['-OUTPUT-'].update('You have created a ' + values['-NUMBER-'] + ' item ' + values['-MS-'] + ' ' + values['-SIDE-'] + ' list, for ' + values['-ENV-'] + '.', text_color='white')
-        which_env = values['-ENV-']
-        num_in_list = values['-NUMBER-']
-        list_market_segment = values['-MS-']
-        buy_or_sell = values['-SIDE-']
-        add_limits = values['-LIMIT-']
-        user_dest = values['-DEST-']
+        if layout == 'Default':
+            window['-OUTPUT-'].update('You have created a ' + values['-NUMBER-'] + ' item ' + values['-MS-'] + ' ' + values['-SIDE-'] + ' list, for ' + values['-ENV-'] + '.', text_color='white')
+            which_env = values['-ENV-']
+            num_in_list = values['-NUMBER-']
+            list_market_segment = values['-MS-']
+            buy_or_sell = values['-SIDE-']
+            add_limits = values['-LIMIT-']
+            user_dest = values['-DEST-']
+            user_source = values['-SOURCECUST-']
+            file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, add_limits, user_dest) 
+        elif layout == 'Custom':
+            window['-OUTPUTCUST-'].update('You have created a ' + values['-NUMBERCUST-'] + ' item ' + 'Custom ' + values['-SIDECUST-'] + ' list.', text_color='white')
+            num_in_list = values['-NUMBERCUST-']
+            buy_or_sell = values['-SIDECUST-']
+            add_limits = values['-LIMITCUST-']
+            user_dest = values['-DESTCUST-']
+            user_source = values['-SOURCECUST-']
+
+            file_name = create_new_list_file(num_in_list, layout, buy_or_sell, add_limits, user_dest) 
 
         #creates new file with number of items and market segment for list
 
-        file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, add_limits, user_dest) 
+        # file_name = create_new_list_file(num_in_list, list_market_segment, buy_or_sell, add_limits, user_dest) 
 
         ##### This section replaces the overall list count value with user input of number of list items in the template #####
 
@@ -183,8 +218,12 @@ while True:
             instruments = open(f'instruments\\{environment}\\{mktseg}.csv', 'r')
             return instruments
 
-        user_mktseg = instrument_src(which_env, list_market_segment)
-        csv_reader = csv.reader(user_mktseg)
+        if user_source == '':
+            user_mktseg = instrument_src(which_env, list_market_segment)
+            csv_reader = csv.reader(user_mktseg)
+        else:
+            user_instruments = open(user_source, 'r')
+            csv_reader = csv.reader(user_instruments)
 
         # adds all cusips from instruments csv into a list
         lists_from_csv = list(csv_reader)
@@ -192,7 +231,7 @@ while True:
         #Generate random set of unique indexes to pick unique instruments from csv
         rand_indexes = []
         while len(rand_indexes) < (int(num_in_list) + 1):
-            rand_index = random.randint(0, len(lists_from_csv))
+            rand_index = random.randint(0, len(lists_from_csv)-1)
             if rand_index not in rand_indexes:
                 rand_indexes.append(rand_index)
             else:
@@ -201,7 +240,6 @@ while True:
         #Create list of random cusips from csv file
         cusips = [lists_from_csv[i].pop() for i in rand_indexes]
 
-        #Replaces dummy instrument with random cusips from list of 300
         instrument_iter = 1
         while instrument_iter < int(num_in_list):
             for line in fileinput.input(file_name, inplace=1):
