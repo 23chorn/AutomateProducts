@@ -56,9 +56,7 @@ def create_new_list_file(num_in_list, market_segment, side, file_size, with_limi
 
 
 ##### Set up on GUI for user to select parameters ######
-
-# sg.theme("DarkTeal12")
-sg.ChangeLookAndFeel('BlueMono')
+sg.ChangeLookAndFeel('DarkTeal12')
 font = ('Roboto, 12')
 
 layout1 = [
@@ -445,9 +443,10 @@ followed by a list of CUSIPS. You cannot select number of items as greater than 
         if size == 'Random':
             order_sizes = []
             while len(order_sizes) < int(num_in_list):
-                rand_size = round(random.uniform(100, 1500))
+                rand_size = round(random.uniform(100, 1500)) * 1000
                 order_sizes.append(rand_size)
             fill_sizes(order_sizes)
+            print(order_sizes)
         elif size == '1':
             order_sizes = createSizeArray(1000)
             fill_sizes(order_sizes)
